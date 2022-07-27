@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React from 'react';
+import Header from "./Component/header";
+import Tes from "./Component/module/tes";
+import {Button,Input} from "./Component/name"
+
+function App(){
+  
+  return(
+    <React.Fragment>
+      <h1>Latihan Export Import</h1>
+      <Header/>
+      <Tes/>
+      <Input/>
+      <Button/>
+    </React.Fragment>
+  )
 }
+
+// export nama bisa 1 komponen atau lebih
 
 export default App;
