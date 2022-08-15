@@ -1,9 +1,9 @@
-import React from "react";
+ import React from "react";
 
 function App() {
   return (
     <React.Fragment>
-      <h1>Latihan Export Import</h1>
+      <h1 className="bg-red-500">Latihan</h1>
     </React.Fragment>
   );
 }
