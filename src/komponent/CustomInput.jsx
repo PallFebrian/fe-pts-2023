@@ -5,7 +5,7 @@ export default function CustomInput({
   stylingInput,
   label,
   isError,
-  textError,
+  errors,
   ...props
 }) {
   return (
@@ -22,7 +22,7 @@ export default function CustomInput({
         type="text"
         id={label}
       />
-      {isError && <p className="error">{textError}</p>}
+      {/* {isError && <p className="error text-red-500 italic">{label} is empty</p>} */}
     </div>
   );
 }
