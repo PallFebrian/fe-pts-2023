@@ -16,6 +16,7 @@ function App() {
     <React.Fragment>
       {/* <h1 className="bg-red-500">Latihan</h1> */}
       <Routes>
+        <Route path="/" element={<Login/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/forgotPassword" element={<ForgotPassword/>}/>
