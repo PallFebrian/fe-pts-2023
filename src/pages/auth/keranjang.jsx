@@ -33,9 +33,10 @@ export default function Keranjang() {
     getKeranjang();
   }, []);
 
+  console.log("listKeranajnag", listKeranjang)
   return (
     <React.Fragment>
-      <div className="w-screen h-screen bg-[#4b5ae2] flex-col overflow-hidden">
+      <div className="w-screen h-screen bg-[#4b5ae2] flex-col">
         <div className=" bg-[#899988] h-[8%] w-screen p-5"></div>
         <div className="w-full h-[92%]  flex">
           <div className="bg-[#F9FCF8] h-full w-full ">
@@ -43,14 +44,17 @@ export default function Keranjang() {
               {/* <section className="mt-10 ml-10 grid grid-cols-4 gap-y-7"> */}
                 <section>
                 {listKeranjang?.map((item, index) => {
-                  // const poto = item.gambarProduk;
+                    const convertRupiah = require('rupiah-format');
+                    let number = item.harga;
+                    let rupiah = convertRupiah.convert(number);
+                  // const poto = item?.produk?.gambarProduk;
                   // const gambar = JSON.parse(poto);
                   return (
                     <CustomKeranjang
                       key={index}
-                      namaProduk={item.namaProduk}
-                      harga={item.harga}
-                      // gambarProduk={gambar[0].gambar1}
+                      namaProduk={item?.produk?.namaProduk}
+                      harga={rupiah}
+                      // gambarProduk={gambar[0]?.gambar1}
                     />
                   );
                 })}
