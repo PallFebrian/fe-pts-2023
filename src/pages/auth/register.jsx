@@ -1,277 +1,386 @@
+// import React from 'react';
+// // import CustomButton from '../../komponent/CustomButton';
+// import CustomInput from '../../komponent/CustomInput';
+// import { useNavigate } from 'react-router-dom';
+// // import { useDispatch } from 'react-redux';
+// import CustomSelect from '../../komponent/CustomSelect';
+// // import Swal from 'sweetalert2';
+// export default function Register() {
+//   let navigate = useNavigate();
+//   // let dispatch = useDispatch();
+
+//   return (
+//     <React.Fragment>
+//       <div className="w-screen h-screen bg-[#4b5ae2] flex">
+//         <div className="bg-[#F9FCF8] h-[100%] w-[100%]  flex justify-center">
+//           <div className="bg-[#D6E6D5] h-[100%] w-[90%] flex justify-center flex-col">
+//             <div>
+//               <h1 className=" flex flex-col justify-center items-center text-[#80917D] text-[30px]">
+//                 Create new account
+//               </h1>
+//               <h3 className=" flex flex-col justify-center items-center text-[#A3BD9E] text-[19px] ">
+//                 Please crate your account
+//               </h3>
+//             </div>
+//             <form>
+//               <section className=" flex flex-col justify-center items-center">
+//                 <CustomInput
+//                   name="name"
+//                   label={'Name'}
+//                   stylingInput="w-[500px] bg-[#B9C9B8] py-[13px] border focus:outline-none"
+//                   stylingLabel={'text-[#899988]'}
+//                 />
+//               </section>
+//               <section className=" flex flex-col justify-center items-center">
+//                 <CustomInput
+//                   name="email"
+//                   label={'Email'}
+//                   stylingInput="w-[500px] bg-[#B9C9B8] py-[13px] border focus:outline-none"
+//                   stylingLabel={'text-[#899988]'}
+//                 />
+//               </section>
+//               <section className=" flex flex-col justify-center items-center">
+//                 <CustomInput
+//                   name="password"
+//                   label={'Password'}
+//                   stylingInput="w-[500px] bg-[#B9C9B8] py-[13px] border focus:outline-none"
+//                   stylingLabel={'text-[#899988]'}
+//                 />
+//               </section>
+//               <section className=" flex flex-col justify-center items-center">
+//                 <CustomInput
+//                   name="confirmPassword"
+//                   label={'Confirm Password'}
+//                   stylingInput="w-[500px] bg-[#B9C9B8] py-[13px] border focus:outline-none"
+//                   stylingLabel={'text-[#899988]'}
+//                 />
+//               </section>
+//               <section className="flex justify-center">
+//                 <CustomSelect
+//                   name={'jenisKelamin'}
+//                   opt1={'Jenis Kelamin'}
+//                   opt2={'Laki - Laki'}
+//                   opt3={'Perempuan'}
+//                   value1={'Jenis Kelamin'}
+//                   value2={'laki-laki'}
+//                   value3={'perempuan'}
+//                   label={'Jenis Kelamin'}
+//                   stylingLabel={'text-[#899988]'}
+//                   StylingSelect={
+//                     'w-[225px] bg-[#B9C9B8] py-[13px] border focus:outline-none'
+//                   }
+//                 />
+//                 <CustomSelect
+//                   name={'status'}
+//                   opt1={'Status'}
+//                   opt2={'Active'}
+//                   opt3={'Non Active'}
+//                   value1={'Status'}
+//                   value2={'active'}
+//                   value3={'nonactive'}
+//                   label={'Status'}
+//                   stylingLabel={'text-[#899988]'}
+//                   StylingSelect={
+//                     'w-[225px] bg-[#B9C9B8] py-[13px] border focus:outline-none'
+//                   }
+//                 />
+//               </section>
+            
+
+//               <section className=" flex flex-col justify-center items-center">
+//                 <button className="w-[500px] bg-[#80917D] py-[6px] border rounded focus:outline-none mt-3 text-[#F9FCF8] text-[27px]">
+//                   Sign up
+//                 </button>
+//               </section>
+//               <p className="text-[#80917D] flex">
+//                 Have an account?
+//                 <button
+//                   className="text-[#466443]"
+//                   onClick={() => {
+//                     return navigate('/login');
+//                   }}
+//                 >
+//                   Sign in
+//                 </button>
+//               </p>
+//             </form>
+//             <form className=" flex flex-col justify-center items-center mt-3 on"></form>
+//           </div>
+//         </div>
+//       </div>
+//     </React.Fragment>
+//   );
+// }
+
 import React from 'react';
-import bg from '../../assets/image/OrangApel.png';
-import CustomButton from '../../komponent/CustomButton';
-import CustomInput from '../../komponent/CustomInput';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { authRegister } from '../../redux/action/authAction';
-import CustomSelect from '../../komponent/CustomSelect';
-import Swal from 'sweetalert2';
+import { CustomButton, CustomInput ,SosmedLog} from '../../komponent';
+import { NavLink } from 'react-router-dom';
+import { FaApple, FaFacebook, FaGoogle } from 'react-icons/fa';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
+import * as Yup from 'yup';
 
-export default function Register() {
-  let navigate = useNavigate();
-  let dispatch = useDispatch();
-  // const [isLoading, setIsLoading] = React.useState(false);
-  // const [messageError, setMessageError] = React.useState('');
-  // const [errorName, setErrorName] = React.useState('');
-  // const [errorEmail, setErrorEmail] = React.useState('');
-  // const [errorPassword, setErrorPassword] = React.useState('');
-  // const [errorConfirmPassword, setErrorConfirmPassword] = React.useState('');
-  const [payload, setPayload] = React.useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    status: '',
-    jenisKelamin: '',
+const Register = () => {
+  const formik = useFormik({
+    initialValues: {
+      namaLengkap: '',
+      username: '',
+      nomorTelpon: '',
+      password: '',
+      confirmPassword: '',
+    },
+    validationSchema: Yup.object().shape({
+      namaLengkap: Yup.string()
+        .min(2, 'Password minimal 2 huruf')
+        .required('Nama Lengkap wajib diisi'),
+      username: Yup.string()
+        .min(4, 'Username minimal 4 huruf')
+        .required('Username wajib diisi'),
+      nomorTelpon: Yup.string()
+        .min(10, 'Nomor Telpon minimal 10 huruf')
+        .required('Nomor Telpon wajib diisi'),
+      email: Yup.string().email('Email salah').required('Email wajib diisi'),
+      password: Yup.string()
+        .min(8, 'Password minimal 8 huruf')
+        .required('Password wajib diisi'),
+      confirmPassword: Yup.string()
+        .min(8, 'Password minimal 8 huruf')
+        .required('Password wajib diisi'),
+    }),
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+      // formik.resetForm();
+      // return navigate("/outlet/createOutlet", { replace: true });
+    },
   });
-
-  const handleChange = (e) => {
-    setPayload((payload) => {
-      return {
-        ...payload,
-        [e.target.name]: e.target.value,
-      };
-    });
-  };
-  const [error, setError] = React.useState('');
-
-  const [errorPassword, setErrorPassword] = React.useState('');
-  const [errorMessage, setErrorMessage] = React.useState('');
-  const [errorConfirmPassword, setErrorConfirmPasswo] = React.useState('');
-  const [errorEmail, setErrorEmail] = React.useState('');
-  const [errorName, setErrorName] = React.useState('');
-  const [errorStatus, setErrorStatus] = React.useState('');
-  const [errorJenisKelamin, setErrorJenisKelamin] = React.useState('');
-  const [isLoading, setIsLoading] = React.useState('');
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      setIsLoading(true);
-      const response = await dispatch(authRegister(payload));
-      console.log("response", response);
-      if (response?.status === "Success") {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        })
-        
-        Toast.fire({
-          icon: 'success',
-          title: 'Berhasil Login'
-        })
-        return navigate("/dashboard", { replace: true });
-      } else {
-        setErrorMessage(response?.response?.data?.msg);
-        setErrorName(response?.response?.data?.errors?.name?.msg);
-        setErrorEmail(response?.response?.data?.errors?.email?.msg);
-        setErrorPassword(response?.response?.data?.errors?.password?.msg);
-        setErrorConfirmPasswo(response?.response?.data?.errors?.confirmPassword?.msg);
-        setErrorStatus(response?.response?.data?.errors?.status?.msg);
-        setErrorJenisKelamin(response?.response?.data?.errors?.jenisKelamin?.msg);
-      
-        Swal.fire(
-          'Error!',
-          errorMessage,
-          'error'
-        )
-      }
-      if (payload.password === "") {
-        setErrorPassword("Password wajib diisi")
-      } else if (payload.password.length < 8) {
-        setErrorEmail("Password harus 8 karakter")
-      } if (payload.email === "") {
-        setErrorEmail("Email wajib diisi")
-      } 
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-    setPayload(() => {
-      return {
-        name: "",
-        email: "",
-        password: "",
-        status: "",
-        jenisKelamin: "",
-      };
-    });
-    console.log("running", payload);
-  };
-  const handleBlur = (e) => {
-    if (e.target.value === '')
-      setError((errors) => {
-        return {
-          ...errors,
-          [e.target.name]: true,
-        };
-      });
-    else
-      setError((errors) => {
-        return {
-          ...errors,
-          [e.target.name]: false,
-        };
-      });
-  };
-  console.log('payload', payload);
   return (
-    <React.Fragment>
-      <div className="w-screen h-screen bg-[#4b5ae2] flex">
-        <div className="bg-[#F9FCF8] h-full w-[50%] flex flex-col justify-center">
-          <h1 className=" flex flex-col justify-center items-center text-[#80917D] text-[30px]">
-            Create new account
-          </h1>
-          <h3 className=" flex flex-col justify-center items-center text-[#A3BD9E] text-[19px] ">
-            Please crate your account
-          </h3>
-          <form onSubmit={handleSubmit}>
-            <section className=" flex flex-col justify-center items-center">
-              <CustomInput
-                name="name"
-                label={'Name'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                isError={error.name}
-                value={payload.name}
-                stylingInput="w-[500px] bg-[#B9C9B8] py-[13px] border focus:outline-none"
-                stylingLabel={'text-[#899988]'}
-              />
-               <section className="mr-[48%]">
-              <p className='"error text-red-500 italic"'>{errorName}</p>
-            </section>
-            </section>
-            <section className=" flex flex-col justify-center items-center">
-              <CustomInput
-                name="email"
-                label={'Email'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                isError={error.email}
-                value={payload.email}
-                stylingInput="w-[500px] bg-[#B9C9B8] py-[13px] border focus:outline-none"
-                stylingLabel={'text-[#899988]'}
-              />
-               <section className="mr-[48%]">
-              <p className='"error text-red-500 italic"'>{errorEmail}</p>
-            </section>
-            </section>
-            <section className=" flex flex-col justify-center items-center">
-              <CustomInput
-                name="password"
-                label={'Password'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                isError={error.password}
-                value={payload.password}
-                stylingInput="w-[500px] bg-[#B9C9B8] py-[13px] border focus:outline-none"
-                stylingLabel={'text-[#899988]'}
-              />
-               <section className="mr-[48%]">
-              <p className='"error text-red-500 italic"'>{errorPassword}</p>
-            </section>
-            </section>
-            <section className=" flex flex-col justify-center items-center">
-              <CustomInput
-                name="confirmPassword"
-                label={'Confirm Password'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                isError={error.confirmPassword}
-                value={payload.confirmPassword}
-                stylingInput="w-[500px] bg-[#B9C9B8] py-[13px] border focus:outline-none"
-                stylingLabel={'text-[#899988]'}
-              />
-               <section className="mr-[48%]">
-              <p className='"error text-red-500 italic"'>{errorConfirmPassword}</p>
-            </section>
-            </section>
-            <section className="flex">
-              <section className=" ml-[133px] mr-[50px]">
-                <CustomSelect
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  isError={error.jenisKelamin}
-                  value={payload.jenisKelamin}
-                  name={'jenisKelamin'}
-                  opt1={'Jenis Kelamin'}
-                  opt2={'Laki - Laki'}
-                  opt3={'Perempuan'}
-                  value1={'Jenis Kelamin'}
-                  value2={'laki-laki'}
-                  value3={'perempuan'}
-                  label={'Jenis Kelamin'}
-                  stylingLabel={'text-[#899988]'}
-                  StylingSelect={
-                    'w-[225px] bg-[#B9C9B8] py-[13px] border focus:outline-none'
-                  }
-                />
-                <section className="mr-[48%]">
-              <p className='"error text-red-500 italic"'>{errorJenisKelamin}</p>
-            </section>
-              </section>
-              <section className="  justify-center items-center  ">
-                <CustomSelect
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  isError={error.status}
-                  value={payload.status}
-                  name={'status'}
-                  opt1={'Status'}
-                  opt2={'Active'}
-                  opt3={'Non Active'}
-                  value1={'Status'}
-                  value2={'active'}
-                  value3={'nonactive'}
-                  label={'Status'}
-                  stylingLabel={'text-[#899988]'}
-                  StylingSelect={
-                    'w-[225px] bg-[#B9C9B8] py-[13px] border focus:outline-none'
-                  }
-                />
-              </section>
-              <section className="mr-[48%]">
-              <p className='"error text-red-500 italic"'>{errorStatus}</p>
-            </section>
-            </section>
+    <section className="bg-[#F9FCF8] h-screen">
 
-            <section className=" flex flex-col justify-center items-center">
-              <button className="w-[500px] bg-[#80917D] py-[6px] border rounded focus:outline-none mt-3 text-[#F9FCF8] text-[27px]">
-                Sign up
-              </button>
-            </section>
-          </form>
-          <from className=" flex flex-col justify-center items-center mt-5"></from>
-          <form className=" flex flex-col justify-center items-center mt-3 on">
-            <p className="text-[#80917D] flex">
-              Have an account?
-              <button
-                className="text-[#466443]"
-                onClick={() => {
-                  return navigate('/login');
-                }}
-              >
-                Sign in
-              </button>
-            </p>
-          </form>
-        </div>
+      <body className="h-[90%] pt-[50px] ">
+        <section className="h-[90%] px-[30px]">
+          <div className="w-full justify-center flex ">
+            <div className="flex flex-col  justify-between items-center bg-[#D6E6D5] shadow-lg p-7 w-[500px] rounded-3xl">
+              <div className="mb-5">
+                <h1 className="text-[#80917D] text-[30px]">Daftar Akun Sebagai:</h1>
+              </div>
 
-        <div className="bg-[#D6E6D5] h-screen w-[50%]">
-          <section className=" flex justify-center mt-24">
-            <img src={bg} alt="" className="w-[45%] h-[45%] " />
-          </section>
-        </div>
-      </div>
-    </React.Fragment>
+              <div className="w-full">
+                <Tabs className={'w-full'}>
+                  <TabList
+                    className={`flex border-b border-b-[#80917D] w-full`}
+                  >
+                    <Tab
+                      className={`text-[#C9D1D9] w-full py-[11px] text-[14px] text-center`}
+                      selectedClassName={`bg-transparent border-b-[2px] border-b-[#00c29a] font-semibold`}
+                    >
+                      <span className="  cursor-pointer hover:rounded transition-all ease-in-out px-[50px] w-full py-[5px] text-[#80917D]">
+                        Pengguna
+                      </span>
+                    </Tab>
+
+                    <Tab
+                      className={`text-[#C9D1D9] w-full py-[11px] text-[14px] text-center`}
+                      selectedClassName={`bg-transparent border-b-[2px] border-b-[#00c29a] font-semibold`}
+                    >
+                      <span className=" cursor-pointer hover:rounded transition-all ease-in-out px-[50px] w-full py-[5px] text-[#80917D]">
+                        Administrator
+                      </span>
+                    </Tab>
+                  </TabList>
+
+                  <TabPanel className={'w-full space-y-5 mt-5'}>
+                    <CustomInput
+                      placeholder={'Nama Lengkap'}
+                      inputStyle={'w-full'}
+                      inputType={'text'}
+                      id={'namaLengkap'}
+                      name={'namaLengkap'}
+                      value={formik.values.namaLengkap}
+                      onChange={formik.handleChange}
+                      isError={
+                        formik.touched.namaLengkap && formik.errors.namaLengkap
+                      }
+                      textError={formik.errors.namaLengkap}
+                      onBlur={formik.handleBlur}
+                      stylingInput="w-[440px] bg-[#B9C9B8] py-[13px] border focus:outline-none"
+                  stylingLabel={'text-[#899988]'}
+                    />
+                    <CustomInput
+                      placeholder={'Username'}
+                      inputStyle={'w-full'}
+                      inputType={'text'}
+                      id={'username'}
+                      name={'username'}
+                      value={formik.values.username}
+                      onChange={formik.handleChange}
+                      isError={
+                        formik.touched.username && formik.errors.username
+                      }
+                      textError={formik.errors.username}
+                      onBlur={formik.handleBlur}
+                      stylingInput="w-[440px] bg-[#B9C9B8] py-[13px] border focus:outline-none"
+                      stylingLabel={'text-[#899988]'}
+                    />
+                    <CustomInput
+                      placeholder={'Nomor Telpon'}
+                      inputStyle={'w-full'}
+                      inputType={'number'}
+                      id={'nomorTelpon'}
+                      name={'nomorTelpon'}
+                      value={formik.values.nomorTelpon}
+                      onChange={formik.handleChange}
+                      isError={
+                        formik.touched.nomorTelpon && formik.errors.nomorTelpon
+                      }
+                      textError={formik.errors.nomorTelpon}
+                      onBlur={formik.handleBlur}
+                      stylingInput="w-[440px] bg-[#B9C9B8] py-[13px] border focus:outline-none"
+                      stylingLabel={'text-[#899988]'}
+                    />
+                    <div className="flex w-full space-x-3">
+                      <CustomInput
+                        placeholder={'Password'}
+                        inputStyle={'w-full'}
+                        inputType={'password'}
+                        id={'password'}
+                        name={'password'}
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        isError={
+                          formik.touched.password && formik.errors.password
+                        }
+                        textError={formik.errors.password}
+                        onBlur={formik.handleBlur}
+                        stylingInput="w-[214px] bg-[#B9C9B8] py-[13px] border focus:outline-none"
+                      stylingLabel={'text-[#899988]'}
+                      />
+                      <CustomInput
+                        placeholder={'Konfirmasi Password'}
+                        inputStyle={'w-full'}
+                        inputType={'password'}
+                        id={'confirmPassword'}
+                        name={'confirmPassword'}
+                        value={formik.values.confirmPassword}
+                        onChange={formik.handleChange}
+                        isError={
+                          formik.touched.confirmPassword && formik.errors.confirmPassword
+                        }
+                        textError={formik.errors.confirmPassword}
+                        onBlur={formik.handleBlur}
+                        stylingInput="w-[214px] bg-[#B9C9B8] py-[13px] border focus:outline-none"
+                      stylingLabel={'text-[#899988]'}
+                      />
+                    </div>
+                    <div className="w-full">
+                      <CustomButton
+                        label={'Buat Akun'}
+                        stylingP={'text-black'}
+                        stylingButton={
+                          'w-full mb-1 py-3 border-none bg-gradient-to-r from-[#00c29a] to-[#e8cd70] hover:to-[#00c29a] hover:from-[#e8cd70]'
+                        }
+                      />
+                      <div className="w-full flex justify-center">
+                        <NavLink to={'/login'} className={''}>
+                          <p className="text-[#80917D]    cursor-pointer hover:text-[#466443] transition-all ease-in-out w-fit text-[13px]">
+                            have an account?
+                          </p>
+                        </NavLink>
+                      </div>
+                    </div>
+                    <div className="flex justify-between w-full">
+                      <SosmedLog
+                        icon={<FaGoogle color="white" size={22} />}
+                        stylingDiv={
+                          ' hover:bg-[#466443] w-[120px] justify-center'
+                        }
+                      />
+                      <SosmedLog
+                        icon={<FaFacebook color="white" size={22} />}
+                        stylingDiv={
+                          ' hover:bg-[#466443] w-[120px] justify-center'
+                        }
+                      />
+                      <SosmedLog
+                        icon={<FaApple color="white" size={22} />}
+                        stylingDiv={
+                          ' hover:bg-[#466443] w-[120px] justify-center'
+                        }
+                      />
+                    </div>
+                  </TabPanel>
+                  <TabPanel className={'w-full space-y-5'}>
+                    <CustomInput
+                      placeholder={'Nama Lengkap'}
+                      inputStyle={'w-full'}
+                      stylingInput="w-[440px] bg-[#B9C9B8] py-[13px] border focus:outline-none"
+                      stylingLabel={'text-[#899988]'}
+                    />
+                    <CustomInput
+                      placeholder={'Username'}
+                      inputStyle={'w-full'}
+                      stylingInput="w-[440px] bg-[#B9C9B8] py-[13px] border focus:outline-none"
+                      stylingLabel={'text-[#899988]'}
+                    />
+                    <div className="flex w-full space-x-3">
+                      <CustomInput
+                        placeholder={'Password'}
+                        inputStyle={'w-full'}
+                        stylingInput="w-[214px] bg-[#B9C9B8] py-[13px] border focus:outline-none"
+                        stylingLabel={'text-[#899988]'}
+                      />
+                      <CustomInput
+                        placeholder={'Konfirmasi Password'}
+                        inputStyle={'w-full'}
+                        stylingInput="w-[214px] bg-[#B9C9B8] py-[13px] border focus:outline-none"
+                        stylingLabel={'text-[#899988]'}
+                      />
+                    </div>
+                    <div className="w-full">
+                      <CustomButton
+                        label={'Buat Akun'}
+                        stylingP={'text-black'}
+                        stylingButton={
+                          'w-full mb-1 py-3 border-none bg-gradient-to-r from-[#00c29a] to-[#e8cd70] hover:to-[#00c29a] hover:from-[#e8cd70]'
+                        }
+                      />
+                      <div className="w-full flex justify-center">
+                        <NavLink to={'/login'} className={''}>
+                          <p className="text-[#80917D]  cursor-pointer hover:text-[#466443] transition-all ease-in-out w-fit text-[13px]">
+                            have an account?
+                          </p>
+                        </NavLink>
+                      </div>
+                    </div>
+                    <div className="flex justify-between w-full">
+                      <SosmedLog
+                        icon={<FaGoogle color="white" size={22} />}
+                        stylingDiv={
+                          ' hover:bg-[#466443] w-[120px] justify-center'
+                        }
+                      />
+                      <SosmedLog
+                        icon={<FaFacebook color="white" size={22} />}
+                        stylingDiv={
+                          ' hover:bg-[#466443] w-[120px] justify-center'
+                        }
+                      />
+                      <SosmedLog
+                        icon={<FaApple color="white" size={22} />}
+                        stylingDiv={
+                          'hover:bg-[#466443]  w-[120px] justify-center'
+                        }
+                      />
+                    </div>
+                  </TabPanel>
+                </Tabs>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </body>
+    </section>
   );
-}
+};
+
+export default Register;
