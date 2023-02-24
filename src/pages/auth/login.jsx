@@ -49,7 +49,10 @@ export default function Login() {
               Forgot password?
             </button>
             <from className=" flex flex-col justify-center items-center">
-              <button className="w-[500px] bg-[#80917D] py-[8px] border rounded focus:outline-none mt-3 text-[#F9FCF8] text-[27px]">
+              <button className="w-[500px] bg-[#80917D] py-[8px] border rounded focus:outline-none mt-3 text-[#F9FCF8] text-[27px]"
+                onClick={() => {
+                  return navigate('/home');
+              }}>
                 Sign in
               </button>
             </from>

@@ -152,52 +152,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="bg-[#F9FCF8] h-full w-[80%] overflow-scroll">
-            <section className="mt-10 ml-10 grid grid-cols-4 gap-y-7">
-              {listProduct.length === 0 ? (
-                <div className="w-screen h-[200px] text-[40px] text-[#899988] font-semibold ">
-                  <h1 className="mt-[15%] ml-[10%]">
-                    Maaf barang yang anda cari tidak tersedia :(
-                  </h1>
-                </div>
-              ) : (
-                listProduct?.map((item, index) => {
-                  const poto = item.gambarProduk;
-                  const gambar = JSON.parse(poto);
-                  //require library
-                  const convertRupiah = require('rupiah-format');
-
-                  //convert number
-                  let number = item.harga;
-                  let rupiah = convertRupiah.convert(number);
-
-                  return (
-                    <button
-                      onClick={() => {
-                        return navigate(`/produk/detailProduk/${item.uuid}`);
-                      }}
-                    >
-                      <CustomCard
-                        gambarProduk={
-                          <img
-                            src={gambar[0].gambar1}
-                            alt="gambar"
-                            // className="ml-6 mt-5 mr-2 h-[70px] w-[150px] "
-                            className="w-full h-full"
-                          />
-                        }
-                        namaProduk={item.namaProduk}
-                        kategori={item.kategori}
-                        harga={rupiah}
-                        stok={item.stok}
-                        rating={item.rating}
-                      />
-                    </button>
-                  );
-                })
-              )}
-            </section>
-          </div>
         </div>
       </div>
     </React.Fragment>
