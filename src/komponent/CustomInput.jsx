@@ -18,8 +18,7 @@ export default function CustomInput({
 
       <input
         {...props}
-        className={`${stylingInput} input-text  rounded  py-[5px] transition-all ease-in-out bg-transparent`}
-        type="text"
+        className={`${stylingInput} input-text  rounded  py-[5px] transition-all ease-in-out bg-transparent p-4`}
         id={label}
       />
       {/* {isError && <p className="error text-red-500 italic">{label} is empty</p>} */}

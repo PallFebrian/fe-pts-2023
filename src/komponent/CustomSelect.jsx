@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Children } from 'react';
 
 const CustomSelect = ({
   opt1,
@@ -11,6 +11,7 @@ const CustomSelect = ({
   StylingSelect,
   label,
   stylingLabel,
+  children,
   ...props
 }) => {
   return (
@@ -21,10 +22,9 @@ const CustomSelect = ({
         </label>
       </h1>
 
-      <select {...props} className={`${StylingSelect} input-text  rounded  py-[5px] transition-all ease-in-out bg-transparent`}>
-        <option value={value1} className="text-black">{opt1}</option>
-        <option value={value2} className="text-black">{opt2}</option>
-        <option value={value3} className="text-black">{opt3}</option>
+      <select {...props}  className={`${StylingSelect} input-text  rounded  py-[5px] transition-all ease-in-out bg-transparent`}>
+        
+       {children}
       </select>
     </div>
   );
