@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { authLogin } from '../../redux/action/authAction';
 import { reach } from 'yup';
+import { toast } from 'react-hot-toast';
 // import { loginProses } from '../../API/auth';
 export default function Login() {
   let navigate = useNavigate();
@@ -37,21 +38,7 @@ export default function Login() {
       const response = await dispatch(authLogin(payload));
       console.log('response => ', response);
       if (response?.status === 'Success') {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer);
-            toast.addEventListener('mouseleave', Swal.resumeTimer);
-          },
-        });
-        Toast.fire({
-          icon: 'success',
-          title: response?.msg,
-        });
+        toast.success(response.msg);
         if (response?.user?.id_level === undefined) {
           return navigate('/home', { replace: true });
         } else {

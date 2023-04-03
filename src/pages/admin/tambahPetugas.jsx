@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { authRegister, authRegisterP } from '../../redux/action/authAction';
+import { toast } from 'react-hot-toast';
 
 export default function TambahPetugas() {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,49 +20,18 @@ export default function TambahPetugas() {
       password: '',
       role: '',
     },
-    // validationSchema: Yup.object().shape({
-    //   namaLengkap: Yup.string()
-    //     .min(2, 'Nama minimal 2 huruf')
-    //     .required('Nama Lengkap wajib diisi'),
-    //   username: Yup.string()
-    //     .min(4, 'Username minimal 4 huruf')
-    //     .required('Username wajib diisi'),
-    //   telp: Yup.string()
-    //     .min(10, 'Nomor Telpon minimal 10 huruf')
-    //     .required('Nomor Telpon wajib diisi'),
-    //   password: Yup.string()
-    //     .min(8, 'Password minimal 8 huruf')
-    //     .required('Password wajib diisi'),
-    //   confirmPasswordMasyarakat: Ymup.string()
-    //     .min(8, 'Password minimal 8 huruf')
-    //     .required('Password wajib diisi'),
-    // }),
     onSubmit: async (values) => {
       console.log('object', values);
 
       try {
         setIsLoading(true);
-        alert(JSON.stringify(values, null, 2));
+        // alert(JSON.stringify(values, null, 2));
 
         const response = await dispatch(authRegisterP(values));
         console.log(response);
         if (response?.status === 'Success') {
-          const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer);
-              toast.addEventListener('mouseleave', Swal.resumeTimer);
-            },
-          });
+          toast.success(response.message);
 
-          Toast.fire({
-            icon: 'success',
-            title: response?.msg,
-          });
           return navigate('/login', { replace: true });
         }
       } catch (err) {
@@ -124,27 +94,10 @@ export default function TambahPetugas() {
             stylingInput="w-[500px] bg-[#E7F6F2] py-[13px] border focus:outline-none "
             stylingLabel={'text-[#e7f6f2]'}
           />
-          {/* <CustomInput
-                    label={'Role'}
-                    inputStyle={'w-full'}
-                    inputType={'role'}
-                    id={'role'}
-                    name={'role'}
-                    value={formikPetugas.values.telp}
-                    onChange={formikPetugas.handleChange}
-                    isError={
-                      formikPetugas.touched.telp &&
-                      formikPetugas.errors.telp
-                    }
-                    textError={formikPetugas.errors.telp}
-                    onBlur={formikPetugas.handleBlur}
-                    stylingInput="w-[500px] bg-[#E7F6F2] py-[13px] border focus:outline-none "
-                    stylingLabel={'text-[#e7f6f2]'}
-                  /> */}
-          {/* <div className="flex w-full space-x-3"> */}
+        
 
           <CustomSelect
-             label={'Role'}
+            label={'Role'}
             id={'role'}
             name={'role'}
             value={formikPetugas.values.telp}

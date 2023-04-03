@@ -31,7 +31,7 @@ export default function Dashboard() {
               </div>
               <div className="px-5 cursor-pointer">
           <NavLink to={'/login'} replace={true}>
-            <div className=" w-[75%] flex  items-center space-x-2 rounded py-1 justify-center transition-all ease-in-out bg-[#395b64]">
+            <div className=" w-[75%] flex mt-[400px] items-center space-x-2 rounded py-1 justify-center transition-all ease-in-out bg-[#395b64]">
               <p className="transition-all ease-in-out text-[#E7F6F2]">Logout</p>
             </div>
           </NavLink>

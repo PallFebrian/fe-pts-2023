@@ -18,3 +18,9 @@ export async function tambahBarang(payload) {
 export async function deleteBarang(id) {
   return axios.delete(`/delete/barang/${id}`)
 }
+export async function updateBarang(id, payload) {
+  return axios.put(`/update/barang/${id}`, payload)
+}
+export async function updateBarangById(id) {
+  return axios.get(`/get/barang/${id}`)
+}

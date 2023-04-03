@@ -10,6 +10,7 @@ import CustomSelect from '../../komponent/CustomSelect';
 import { useDispatch } from 'react-redux';
 import { authRegister, authRegisterP } from '../../redux/action/authAction';
 import Swal from 'sweetalert2';
+import { toast } from 'react-hot-toast';
 
 const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,49 +23,17 @@ const Register = () => {
       telp: '',
       password: '',
     },
-    // validationSchema: Yup.object().shape({
-    //   namaLengkap: Yup.string()
-    //     .min(2, 'Nama minimal 2 huruf')
-    //     .required('Nama Lengkap wajib diisi'),
-    //   username: Yup.string()
-    //     .min(4, 'Username minimal 4 huruf')
-    //     .required('Username wajib diisi'),
-    //   telp: Yup.string()
-    //     .min(10, 'Nomor Telpon minimal 10 huruf')
-    //     .required('Nomor Telpon wajib diisi'),
-    //   password: Yup.string()
-    //     .min(8, 'Password minimal 8 huruf')
-    //     .required('Password wajib diisi'),
-    //   confirmPasswordMasyarakat: Yup.string()
-    //     .min(8, 'Password minimal 8 huruf')
-    //     .required('Password wajib diisi'),
-    // }),
+  
     onSubmit: async (values) => {
       console.log('object', values);
 
       try {
         setIsLoading(true);
-        alert(JSON.stringify(values, null, 2));
-
         const response = await dispatch(authRegister(values));
         console.log(response);
         if (response?.status === 'Success') {
-          const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer);
-              toast.addEventListener('mouseleave', Swal.resumeTimer);
-            },
-          });
+          toast.success(response.message);
 
-          Toast.fire({
-            icon: 'success',
-            title: response?.msg,
-          });
           return navigate('/login', { replace: true });
         }
       } catch (err) {
@@ -174,21 +143,8 @@ const Register = () => {
                     </p>
                   </NavLink>
                 </div>
-                <div className="flex justify-between w-full">
-                  <SosmedLog
-                    icon={<FaGoogle color="white" size={22} />}
-                    stylingDiv={' hover:bg-[#A5C9CA] w-[120px] justify-center'}
-                  />
-                  <SosmedLog
-                    icon={<FaFacebook color="white" size={22} />}
-                    stylingDiv={' hover:bg-[#A5C9CA] w-[120px] justify-center'}
-                  />
-                  <SosmedLog
-                    icon={<FaApple color="white" size={22} />}
-                    stylingDiv={' hover:bg-[#A5C9CA] w-[120px] justify-center'}
-                  />
-                </div>
-                {/* </TabPanel> */}
+              
+
               </div>
             </div>
           </div>

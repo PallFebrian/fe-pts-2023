@@ -1,9 +1,11 @@
 import React from 'react';
+import { toast } from 'react-hot-toast';
 // import CustomButton from '../../komponent/CustomButton';
 // import CustomInput from '../../komponent/CustomInput';
 
-
 import { NavLink, useNavigate } from 'react-router-dom';
+import { deleteBarang, getBarang } from '../../api/barangApi';
+const convertRupiah = require('rupiah-format');
 // import { MdAccountCircle } from 'react-icons/md';
 // import { SlBasket } from 'react-icons/sl';
 
@@ -11,6 +13,24 @@ import { NavLink, useNavigate } from 'react-router-dom';
 
 export default function Home() {
   // let navigate = useNavigate();
+  let [isLoading, setIsLoading] = React.useState();
+  const [getBarangs, setGetBarangs] = React.useState([]);
+  const [page, setPage] = React.useState([]);
+
+  const getBarangHandle = async () => {
+    try {
+      const response = await getBarang();
+      console.log('Response =>', response);
+      setGetBarangs(response.data.data.rows);
+      // setPage(response.data.page);
+    } catch (err) {
+      console.log('error =>', err);
+    }
+  };
+
+  React.useEffect(() => {
+    getBarangHandle();
+  }, []);
 
   return (
     <React.Fragment>
@@ -26,12 +46,14 @@ export default function Home() {
                 Beranda
               </div>
               <div className="px-5 cursor-pointer">
-          <NavLink to={'/login'} replace={true}>
-            <div className=" w-[75%] flex  items-center space-x-2 rounded py-1 justify-center transition-all ease-in-out bg-[#395b64]">
-              <p className="transition-all ease-in-out text-[#E7F6F2]">Logout</p>
-            </div>
-          </NavLink>
-        </div>
+                <NavLink to={'/login'} replace={true}>
+                  <div className=" w-[75%] flex mt-[400px]  items-center space-x-2 rounded py-1 justify-center transition-all ease-in-out bg-[#395b64]">
+                    <p className="transition-all ease-in-out text-[#E7F6F2]">
+                      Logout
+                    </p>
+                  </div>
+                </NavLink>
+              </div>
             </div>
           </div>
           {/* <div className="bg-[#395B64] h-full w-[2px]"></div> */}
@@ -47,13 +69,32 @@ export default function Home() {
                 Players vs Players
               </h1>
               <button className=" bg-[#395B64]  text-[#E7F6F2] rounded-md  mt-10 w-[300px] h-[50px]">
-                Lihat lainnya
+                see more ...
               </button>
-              <p className="text-[#E7F6F2] text-[25px] mt-20 font-medium ">
+              <p className="text-[#E7F6F2] text-[25px] mb-5 mt-20 font-medium ">
                 Auctions
               </p>
 
               <div className="grid grid-cols-4  items-center w-full gap-7 ">
+                {isLoading ? (
+                  'loading'
+                ) : (
+                  <>
+                    {getBarangs.map((item, index) => {
+                      return (
+                        <div className=" w-[200px] h-[270px] rounded-xl bg-[#E7F6F2] shadow-xl ">
+                          <div className="w-[100%] h-[50%] bg-[#A5C9CA] rounded-xl "></div>
+                          <p className="mt-2 mr-2 ml-2 "> {item?.namaBarang}</p>
+                          <p className="mt-2 mr-2 ml-2 font-bold">
+                            {convertRupiah.convert(item?.hargaAwal)}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </>
+                )}
+              </div>
+              {/* <div className="grid grid-cols-4  items-center w-full gap-7 ">
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((item, index) => {
                   return (
                     
@@ -63,7 +104,7 @@ export default function Home() {
                     </div>
                   );
                 })}
-              </div>
+              </div> */}
             </section>
           </div>
         </div>

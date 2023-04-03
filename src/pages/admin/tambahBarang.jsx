@@ -32,22 +32,7 @@ export default function TambahBarang() {
         const response = await tambahBarang(values);
         console.log('baranggg', response);
         if (response?.data?.status === 'Success') {
-          // const Toast = Swal.mixin({
-          //   toast: true,
-          //   position: 'top-end',
-          //   showConfirmButton: false,
-          //   timer: 3000,
-          //   timerProgressBar: true,
-          //   didOpen: (toast) => {
-          //     toast.addEventListener('mouseenter', Swal.stopTimer);
-          //     toast.addEventListener('mouseleave', Swal.resumeTimer);
-          //   },
-          // });
-
-          // Toast.fire({
-          //   icon: 'success',
-          //   title: response?.data?.msg,
-          // });
+          
           toast.success(response.data.msg );
           return navigate('/dashboard/barang', { replace: true });
         }
